@@ -48,21 +48,23 @@ The IP range is the starting address which the VPN server will begin allocating 
 
 **Log in to the instance using SSH**. You should have automatically downloaded a *.pem file when you created a key for the server. If using Windows, use *puttyGen* to convert the PEM key to a PPK file.
 
-  ssh -i "vpn-prod-rds.pem" ec2-user@54.241.57.39
+    ssh -i "vpn-prod-rds.pem" ec2-user@54.241.57.39
 
 After logging in, you will be in the /home/ec2-user directory. Become root.
 
-  sudo su
+    sudo su
 
 And download the script:
 
-  wget -O install.sh https://raw.githubusercontent.com/Eightfold-Way-Consultants/vpnserver/master/install.sh
+    wget -O install.sh https://raw.githubusercontent.com/Eightfold-Way-Consultants/vpnserver/master/install.sh
 
-  chmod +x install.sh
+    chmod +x install.sh
 
 **Run the script**
 
-  ./install.sh
+    ./install.sh
 
+A few minutes will pass as it installs software. Eventually it will prompt you for the info you have noted above. It is important to pay close attention and paste the correct item.
 
+The script will create a VPN PASSPHRASE and place it in a new AWS secret.
 
