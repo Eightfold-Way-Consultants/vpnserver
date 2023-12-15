@@ -95,6 +95,8 @@ Remember to open this new secret in the AWS web console, and add your .pem file.
 
 **Step 4**: The certificates for openvpn and easyrsa are built. These certificates are located in various places in `/etc/openvpn/easy-rsa/pki/`. They are signed with the server's name and only to be used on this particular instance. 
 
+**This step is fairly delicate**. You'll need to paste the passphrase back in (twice) without seeing any feedback. If any of the questions get answered wrong, the wrong settings are going to be scattered amongst multiple files. If you make a mistake here, it might be best to wipe the server and start over fresh. Sorry. Openvpn and easyrsa will ask you some stern sounding questions here too. **Pay attention**.
+
 The openvpn configuration file is created at `/etc/openvpn/server.conf`. 
 
 `iptables` is now installed. Finally, a startup script, `start_vpn.sh` is created. It will configure iptables and start the openvpn server. It is configured to run on boot. 
