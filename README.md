@@ -87,7 +87,7 @@ The script is split into 5 steps. When it successfully passes a step, it updates
 
 - server's name
 - public ip address
-- starting ip address to assign to vpn clients
+- starting ip address to assign to vpn clients (*This should end in zero. Ex: 172.90.10.0*)
 
 A passphrase is created and uploaded to a new *secret* in AWS Secrets Manager. 
 
@@ -101,7 +101,7 @@ The openvpn configuration file is created at `/etc/openvpn/server.conf`.
 
 `iptables` is now installed. Finally, a startup script, `start_vpn.sh` is created. It will configure iptables and start the openvpn server. It is configured to run on boot. 
 
-The server is now fully configured.
+The server is now fully configured. You can reboot now, or run the script at `/etc/init.d/start_vpn.sh`.
 
 **Step 5**: Can be run repeatedly. It will create a client for this VPN server. Along with the appropriate certificates for the server, it will create `$clientname-$servername.ovpn`. This is the file that needs to be transferred to the user to use their new vpn account. To accomplish this, a new AWS Secret is created and filled with the contents of this .ovpn file. 
 
