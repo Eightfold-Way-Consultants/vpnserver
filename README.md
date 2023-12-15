@@ -4,7 +4,7 @@ This script is to be run on a new EC2 instance when you want VPN access to a VPC
 
 ## Set up EC2 Instance
 
-You can use the template:  EFW_VPN_Template
+You can use the template:  **EFW_VPN_Template**
 
 - Type:  t4g.nano  (arm)
   - amazon linux
@@ -14,7 +14,7 @@ You can use the template:  EFW_VPN_Template
 - match subnet corresponding to vpc
 
 - security group - needs 2 inbound rules:
-   - SSH (TCP port 22) from your IP address for administration.
+   - SSH (TCP port 22) from your IP address for administration. You could disable this after the initial setup.
    - Custom UDP Rule (port 11094) from anywhere for the OpenVPN server.
 
 - Advanced / Networking
@@ -77,7 +77,7 @@ A few minutes will pass as it installs software. Eventually it will prompt you f
 
 ## The VPN install script
 
-The script is split into 5 steps. When it successfully passes a step, it updates the `install_status.txt` file. If the following step fails, the script will attempt to continue from that step on subsequent invocations.
+The script is split into 5 steps. When it successfully passes a step, it updates the `install_status.txt` file. If a step fails, the script will attempt to continue from that step on subsequent invocations.
 
 **Step 1**: All of the necessary software is downloaded and installed.
 
@@ -85,7 +85,7 @@ The script is split into 5 steps. When it successfully passes a step, it updates
 
 **Step 3**: User is asked for the specific details of this server.
 
-- name
+- server's name
 - public ip address
 - starting ip address to assign to vpn clients
 
@@ -93,7 +93,7 @@ A passphrase is created and uploaded to a new *secret* in AWS Secrets Manager.
 
 Remember to open this new secret in the AWS web console, and add your .pem file.
 
-**Step 4**: The various certificates for openvpn and easyrsa are built. These certificates are located in various places in `/etc/openvpn/easy-rsa/pki/`. They are signed with the server's name and only to be used on this particular instance. 
+**Step 4**: The certificates for openvpn and easyrsa are built. These certificates are located in various places in `/etc/openvpn/easy-rsa/pki/`. They are signed with the server's name and only to be used on this particular instance. 
 
 The openvpn configuration file is created at `/etc/openvpn/server.conf`. 
 
