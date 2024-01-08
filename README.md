@@ -4,11 +4,11 @@ This script is to be run on a new EC2 instance when you want VPN access to a VPC
 
 ## Set up EC2 Instance
 
-You can use the template:  **EFW_VPN_Template**
+You can use the EC2 template:  **EFW_VPN_Template**
 
 - Type:  t4g.nano  (arm)
   - amazon linux
-  - naming template:   efw.vpn.kp.001
+  - our (ideal) naming template:   vpn-[VPC NAME]-[VPC-FUNCTION]   for example: vpn-vpc01-vault
   - use desired vpc
 
 - match subnet corresponding to vpc
@@ -29,7 +29,7 @@ You can use the template:  **EFW_VPN_Template**
   - on linux you need to   chmod 400 <vpn-vpc-01.pem>
        
 - Give instance a role:   efw.role.vpn 
-  - only policy is to read secrets manager
+  - only policy is to read/write secrets manager
   - create this role if it doesn't exist
 
 - Allow tags in instance metadata: set to "Allow"
@@ -47,7 +47,7 @@ At this point, you should have the following handy:
 - security group: (sg-1234abcd)
 - public ip: 54.211.69.96
 
-The IP range is the starting address which the VPN server will begin allocating internal IPs to clients. Should be in the same subnet. By convention we use x.x.10.0.
+The IP range is the starting address which the VPN server will begin allocating internal IPs to clients. Should be in the same subnet. By convention we use x.x.10.0. The final digit needs to be 0. 
 
 **Log in to the instance using SSH**. You should have automatically downloaded a *.pem file when you created a key for the server. If using Windows, use *puttyGen* to convert the PEM key to a PPK file.
 
@@ -103,7 +103,13 @@ The openvpn configuration file is created at `/etc/openvpn/server.conf`.
 
 The server is now fully configured. You can reboot now, or run the script at `/etc/init.d/start_vpn.sh`.
 
+## Setup Clients
+
 **Step 5**: Can be run repeatedly. It will create a client for this VPN server. Along with the appropriate certificates for the server, it will create `$clientname-$servername.ovpn`. This is the file that needs to be transferred to the user to use their new vpn account. To accomplish this, a new AWS Secret is created and filled with the contents of this .ovpn file. 
+
+Once step 4 is successful, the script will always run step 5 immediately. You can repeatedly call the script to create new client configurations. 
+
+When a new client is created, the OPVN file they need is uploaded to an AWS secret. The client can read the secret and save its contents to an .ovpn file on their desktop, and import into openvpn to use the VPN. 
 
 
 
