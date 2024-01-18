@@ -39,13 +39,13 @@ You can use the EC2 template:  **EFW_VPN_Template**
 
 ## Log in and run script
 
-At this point, you should have the following handy:
+At this point, you should have the following handy:   (sample values, don't copy)
 
 - instance name:  vpn-prod-rds
 - subnet: (9bb881c0)  172.90.0.0
 - ip range: 172.90.10.0 *
 - security group: (sg-1234abcd)
-- public ip: 54.211.69.96
+- public ip: 44.244.64.94
 
 The IP range is the starting address which the VPN server will begin allocating internal IPs to clients. Should be in the same subnet. By convention we use x.x.10.0. The final digit needs to be 0. 
 
@@ -57,7 +57,7 @@ If using linux, set the permission on the .pem file:
     
 And log in:
 
-    ssh -i "vpn-prod-rds.pem" ec2-user@54.241.57.39
+    ssh -i "vpn-prod-rds.pem" ec2-user@44.244.64.94
 
 After logging in, you will be in the /home/ec2-user directory. Become root.
 
