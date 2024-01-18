@@ -105,11 +105,16 @@ The server is now fully configured. You can reboot now, or run the script at `/e
 
 ## Setup Clients
 
-**Step 5**: Can be run repeatedly. It will create a client for this VPN server. Along with the appropriate certificates for the server, it will create `$clientname-$servername.ovpn`. This is the file that needs to be transferred to the user to use their new vpn account. To accomplish this, a new AWS Secret is created and filled with the contents of this .ovpn file. 
+**Step 5**: From this point on, successive invocations of the script will create a new client for the vpn. You can repeatedly call the script to create new client configurations. 
 
-Once step 4 is successful, the script will always run step 5 immediately. You can repeatedly call the script to create new client configurations. 
+Creating a new client involves creating a certificate on the server, and a `.ovpn` file, which will need to be downloaded and loaded into the user's vpn configuration. The file `/etc/openvpn/easy-rsa/$clientname-$servername.ovpn` is created and uploaded to a new AWS Secret.
 
-When a new client is created, the OPVN file they need is uploaded to an AWS secret. The client can read the secret and save its contents to an .ovpn file on their desktop, and import into openvpn to use the VPN. 
+- Log in to the AWS Console, and look for a new secret with the name of: `$servername-$clientname`.
+- View the 'Secret Value' (which should be plaintext) and copy the contents to a file named `$servername-$clientname.ovpn`
+- In your VPN client, create a new configuration by 'import file...' method. Choose the .ovpn you just created.
+- You can now connect to the vpn.
+
+
 
 
 
