@@ -129,6 +129,18 @@ else
     echo "$serverip" > "$serverip_file"
 fi
 
+if [ -f "$subnet_file" ]; then
+    if [ -z "$subnetip" ]; then
+        # Set the variable from the contents of a file
+        subnetip=$(cat $subnet_file)
+    fi
+else
+    echo "##"
+    echo "## What is the subnet where this server is located? (ex: 10.3.0.0) "
+    read subnetip
+    echo "$subnetip" > "$subnet_file"
+fi
+
 if [ -f "$iprange_file" ]; then
     if [ -z "$iprange" ]; then
         # Set the variable from the contents of a file
@@ -403,6 +415,8 @@ nobind
 remote-cert-tls server
 persist-key
 persist-tun
+route-nopull
+route $subnetip 255.255.0.0
 <ca>
 EOF
 cat pki/ca.crt >> $clientname-$servername.ovpn

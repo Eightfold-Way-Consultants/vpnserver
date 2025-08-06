@@ -87,6 +87,7 @@ The script is split into 5 steps. When it successfully passes a step, it updates
 
 - server's name
 - public ip address
+- subnet where server is located (*Ex: 172.90.0.0)
 - starting ip address to assign to vpn clients (*This should end in zero. Ex: 172.90.10.0*)
 
 A passphrase is created and uploaded to a new *secret* in AWS Secrets Manager. 
